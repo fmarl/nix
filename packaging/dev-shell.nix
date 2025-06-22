@@ -49,7 +49,7 @@ pkgs.nixComponents2.nix-util.overrideAttrs (
       }
 
       configurePhase() {
-          mesonConfigurePhase
+          dontAddPrefix=1 CC=afl-clang-fast CXX=afl-clang-fast++ LD=afl-clang-fast CXXFLAGS="-fno-pie -no-pie -fsanitize=address" mesonConfigurePhase
       }
 
       buildPhase() {
@@ -122,7 +122,8 @@ pkgs.nixComponents2.nix-util.overrideAttrs (
       ++ lib.optional (stdenv.cc.isClang && stdenv.hostPlatform == stdenv.buildPlatform) (
         lib.hiPrio pkgs.buildPackages.clang-tools
       )
-      ++ lib.optional stdenv.hostPlatform.isLinux pkgs.buildPackages.mold-wrapped;
+      ++ lib.optional stdenv.hostPlatform.isLinux pkgs.buildPackages.mold-wrapped
+      ++ [ pkgs.aflplusplus ];
 
     buildInputs =
       attrs.buildInputs or [ ]
