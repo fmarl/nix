@@ -50,3 +50,5 @@ flake-regressions
 
 # direnv
 .direnv/
+
+fuzz/out/
